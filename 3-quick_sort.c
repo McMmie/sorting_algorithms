@@ -48,33 +48,6 @@ void quicksort(int *arr, int low, int high, int size)
 	}
 }
 
-	/**
-	 * temp = malloc(sizeof(int) * (high - low + 1));
-
-	temp[++i] = low;
-	temp[++i] = high;
-	while (i >= 0)
-	{
-		high = temp[i--];
-		low = temp[i--];
-		part = partition(array, low, high, size);
-		if (part > low)
-		{
-			temp[++i] = low;
-			temp[++i] = part - 1;
-		}
-
-		if (part < high)
-		{
-			temp[++i] = part + 1;
-			temp[++i] = high;
-		}
-	}
-
-	free(temp);
-	*/
-
-
 /**
  * partition - uses the lomuto partition scheme to partition an array
  * @arr: array to partition
@@ -113,5 +86,5 @@ int partition(int *arr, int low, int high, int size)
 	}
 
 	print_array(arr, size);
-	return (i + 1);
+	return (i);
 }
