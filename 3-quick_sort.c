@@ -1,12 +1,8 @@
 #include "sort.h"
-#include <stdio.h>
+#include <stdlib.h>
 
 
-size_t partition(int *arr, size_t low, size_t high);
-
-void quicksort(int *array, size_t low, size_t high);
-
-void swap(int *a, int *b);
+size_t partition(int *arr, size_t low, size_t high, size_t size);
 
 /**
  * quick_sort - sorts an array of integers in ascending order
@@ -16,31 +12,17 @@ void swap(int *a, int *b);
  *
  * Return: Nothing
  */
+
 void quick_sort(int *array, size_t size)
 {
-	size_t low, high;
+	size_t low, high, part;
+	int *temp;
+	int i = -1;
 
 	low = 0;
 	high = size - 1;
 
-	quicksort(array, low, high);
-}
-
-/**
- * quicksort - quick sort in recursive mode
- * @array: array to sort
- * @low: the first index
- * @high: the last index
- *
- * Return: Nothing
- */
-
-void quicksort(int *array, size_t low, size_t high)
-{
-	int temp[100];
-
-	size_t part;
-	int i = -1;
+	temp = malloc(sizeof(int) * (high - low + 1));
 
 	temp[++i] = low;
 	temp[++i] = high;
@@ -48,37 +30,21 @@ void quicksort(int *array, size_t low, size_t high)
 	{
 		high = temp[i--];
 		low = temp[i--];
-		part = partition(array, low, high);
-		if (part - 1 > low)
+		part = partition(array, low, high, size);
+		if (part > low)
 		{
 			temp[++i] = low;
 			temp[++i] = part - 1;
 		}
 
-		if (part + 1 < high)
+		if (part < high)
 		{
 			temp[++i] = part + 1;
 			temp[++i] = high;
 		}
-		printf("partition: %ld\n", part);
 	}
-}
 
-/**
- * swap - swaps values of an array
- * @a: first value
- * @b: second value
- *
- * Return: nothing
- */
-
-void swap(int *a, int *b)
-{
-	int tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+	free(temp);
 }
 
 /**
@@ -86,17 +52,17 @@ void swap(int *a, int *b)
  * @arr: array to partition
  * @low: first index
  * @high: last index
+ * @size: size of the array
  *
  * Return: new partition
  */
 
-size_t partition(int *arr, size_t low, size_t high)
+size_t partition(int *arr, size_t low, size_t high, size_t size)
 {
 	size_t j, i = (low - 1);
 
 	int tmp, pivot = arr[high];
 
-	printf("pivot: %d\n", pivot);
 	for (j = low; j < high; j++)
 	{
 		if (arr[j] <= pivot)
@@ -107,6 +73,7 @@ size_t partition(int *arr, size_t low, size_t high)
 				tmp = arr[i];
 				arr[i] = arr[j];
 				arr[j] = tmp;
+				print_array(arr, size);
 			}
 		}
 	}
@@ -117,6 +84,6 @@ size_t partition(int *arr, size_t low, size_t high)
 		arr[high] = tmp;
 	}
 
-	print_array(arr, high + 1);
+	print_array(arr, size);
 	return (i + 1);
 }
