@@ -1,8 +1,9 @@
 #include "sort.h"
 #include <stdlib.h>
 
+void quicksort(int *arr, int low, int high, int size);
 
-size_t partition(int *arr, size_t low, size_t high, size_t size);
+int partition(int *arr, int low, int high, int size);
 
 /**
  * quick_sort - sorts an array of integers in ascending order
@@ -15,14 +16,38 @@ size_t partition(int *arr, size_t low, size_t high, size_t size);
 
 void quick_sort(int *array, size_t size)
 {
-	size_t low, high, part;
-	int *temp;
-	int i = -1;
+	int low, high;
+
 
 	low = 0;
 	high = size - 1;
 
-	temp = malloc(sizeof(int) * (high - low + 1));
+	quicksort(array, low, high, size);
+}
+
+/**
+ * quicksort - sorts an array of integers recursively
+ * @arr: array to be sorted
+ * @low: first index
+ * @high: last index
+ * @size: size of the array
+ *
+ * Return: Nothing
+ */
+void quicksort(int *arr, int low, int high, int size)
+{
+	int part;
+
+	if (low < high)
+	{
+		part = partition(arr, low, high, size);
+		quicksort(arr, low, part - 1, size);
+		quicksort(arr, part + 1, high, size);
+	}
+}
+
+	/**
+	 * temp = malloc(sizeof(int) * (high - low + 1));
 
 	temp[++i] = low;
 	temp[++i] = high;
@@ -45,7 +70,8 @@ void quick_sort(int *array, size_t size)
 	}
 
 	free(temp);
-}
+	*/
+
 
 /**
  * partition - uses the lomuto partition scheme to partition an array
@@ -57,9 +83,9 @@ void quick_sort(int *array, size_t size)
  * Return: new partition
  */
 
-size_t partition(int *arr, size_t low, size_t high, size_t size)
+int partition(int *arr, int low, int high, int size)
 {
-	size_t j, i = (low - 1);
+	int j, i = (low - 1);
 
 	int tmp, pivot = arr[high];
 
