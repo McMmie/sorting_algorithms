@@ -21,6 +21,8 @@ void quick_sort(int *array, size_t size)
 
 	low = 0;
 	high = size - 1;
+	if (size < 2)
+		return;
 
 	quicksort(array, low, high, size);
 }
